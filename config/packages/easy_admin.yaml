@@ -1,0 +1,30 @@
+easy_admin:
+    site_name:  Conference Guestbook
+
+    design:
+        menu:
+              - { route: 'homepage', label: 'Домашняя страница', icon: 'home' }
+              - { entity: 'Conference', label: 'Конференции', icon: 'map-marker' }
+              - { entity: 'Comment', label: 'Коментарии', icon: 'comments' }
+
+    entities:
+        Conference:
+            class: App\Entity\Conference
+
+        Comment:
+            class: App\Entity\Comment
+            list:
+                fields:
+                    - author
+                    - { property: 'email', type: 'email' }
+                    - { property: 'createdAt', type: 'datetime' }
+                sort: ['createdAt', 'ASC']
+                filters: ['conference']
+            edit:
+                fields:
+                    - { property: 'conference' }
+                    - { property: 'createdAt', type: 'email' }
+                    - { property: 'createdAt', type: datetime, type_options: { attr: { readonly: true } } }
+                    - 'author'
+                    - { property: 'email', type: 'email' }
+                    - text
