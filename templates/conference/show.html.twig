@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Гостевая книга для конференций - {{ conference }} {% endblock %}
+
+{% block body %}
+    <h2>{{ conference }} Conference</h2>
+
+    {% if comments|length > 0 %}
+        <div>Здесь {{ comments|length }} комментарий.</div>
+        {% for comment in comments %}
+            {% if comment.photoFilename %}
+                <img src="{{ asset('uploads/photos/' ~ comment.photoFilename) }}" />
+            {% endif %}
+
+            <h4>{{ comment.author }}</h4>
+            <small> 
+                {{ comment.createdAt|date('d-m-Y') }}
+            </small>
+
+            <p>{{ comment.text }}</p>
+        {% endfor %}
+
+        {% if previous >= 0 %}
+            <a href="{{ path('conference', { id:conference.id, offset:previous }) }}">Назад</a>
+        {% endif %}
+        {% if next < comments|length %}
+            <a href="{{ path('conference', { id:conference.id, offset:next }) }}">Вперед</a>
+        {% endif %}
+    {% else %}
+        <div>Комментариев по данной конференции пока не опубликовано</div>
+    {% endif %}
+{% endblock %}
